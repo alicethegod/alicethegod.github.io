@@ -99,7 +99,7 @@
     
     <script>
         // --- 安全设置 ---
-        const PASSWORD_HASH = '1d13ccb9ba59d512ecb83a2c589e126221b737b94bfe74f4d71aa92a90d6fa20'; // 默认密码'theory'的哈希值, 请使用password_hasher.html生成您自己的哈希并替换此处
+        const PASSWORD_HASH = '1d13ccb9ba59d512ecb83a2c589e126221b737b94bfe74f4d71aa92a90d6fa20'; // 默认密码的哈希值
 
         async function sha256(message) {
             const msgBuffer = new TextEncoder().encode(message);
@@ -134,8 +134,6 @@
             }
         }
         
-        // --- 后续代码 (富文本编辑器, 数据加载/保存等) 保持不变 ---
-
         // --- 富文本编辑器初始化 ---
         function initializeEditors() {
             tinymce.remove(); // 移除旧实例以防重复初始化
