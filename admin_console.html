@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学术主页控制台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', 'Noto Sans SC', sans-serif; }
+        .form-section { @apply bg-white p-6 rounded-lg shadow-md mb-8; }
+        .form-label { @apply block text-lg font-semibold text-gray-700 mb-2; }
+        .form-input { @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500; }
+        .form-textarea { @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-24; }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div id="login-modal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
+        <div class="bg-white p-8 rounded-lg shadow-2xl w-full max-w-sm">
+            <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">控制台登录</h2>
+            <input type="password" id="password-input" class="form-input mb-4" placeholder="请输入密码">
+            <button id="login-button" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">登录</button>
+            <p id="error-message" class="text-red-500 text-sm mt-2 text-center"></p>
+        </div>
+    </div>
+
+    <div id="admin-panel" class="container mx-auto max-w-4xl p-4 sm:p-8 hidden">
+        <header class="flex justify-between items-center mb-10">
+            <h1 class="text-4xl font-bold text-gray-800">主页内容管理</h1>
+            <a href="academic_homepage.html" target="_blank" class="bg-green-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-green-600 transition-colors">
+                预览主页
+            </a>
+        </header>
+
+        <main>
+            <!-- 关于我 -->
+            <div class="form-section">
+                <h2 class="text-2xl font-bold text-gray-700 mb-4 border-b pb-2">关于我</h2>
+                <div>
+                    <label for="about-zh" class="form-label">中文陈述</label>
+                    <textarea id="about-zh" class="form-textarea"></textarea>
+                </div>
+                <div class="mt-4">
+                    <label for="about-en" class="form-label">English Statement</label>
+                    <textarea id="about-en" class="form-textarea"></textarea>
+                </div>
+            </div>
+
+            <!-- 研究理念 -->
+            <div class="form-section">
+                <h2 class="text-2xl font-bold text-gray-700 mb-4 border-b pb-2">研究理念</h2>
+                <div id="research-statement-editor" class="space-y-6">
+                    <!-- JS will populate this -->
+                </div>
+            </div>
+
+            <!-- 出版物 -->
+            <div class="form-section">
+                <h2 class="text-2xl font-bold text-gray-700 mb-4 border-b pb-2">出版物与手稿</h2>
+                <div id="publications-editor" class="space-y-6">
+                    <!-- JS will populate this -->
+                </div>
+                <button id="add-publication" class="mt-6 bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors">添加一篇论文</button>
+            </div>
+            
+            <!-- 联系方式 -->
+            <div class="form-section">
+                 <h2 class="text-2xl font-bold text-gray-700 mb-4 border-b pb-2">联系方式</h2>
+                 <div>
+                    <label for="contact-email" class="form-label">联系邮箱</label>
+                    <input type="email" id="contact-email" class="form-input">
+                </div>
+            </div>
+
+            <div class="mt-12 text-center">
+                <button id="save-button" class="w-full max-w-xs bg-red-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-red-700 transition-colors text-xl">
+                    保存更改
+                </button>
+            </div>
+        </main>
+    </div>
+    
+    <script>
+        // --- 登录逻辑 ---
+        const PASSWORD = 'theory'; // 您可以在这里修改您的密码
+        const loginModal = document.getElementById('login-modal');
+        const adminPanel = document.getElementById('admin-panel');
+        const passwordInput = document.getElementById('password-input');
+        const loginButton = document.getElementById('login-button');
+        const errorMessage = document.getElementById('error-message');
+
+        loginButton.addEventListener('click', attemptLogin);
+        passwordInput.addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') attemptLogin();
+        });
+
+        function attemptLogin() {
+            if (passwordInput.value === PASSWORD) {
+                loginModal.classList.add('hidden');
+                adminPanel.classList.remove('hidden');
+                loadData();
+            } else {
+                errorMessage.textContent = '密码错误，请重试。';
+                passwordInput.value = '';
+            }
+        }
+
+        // --- 数据加载与保存 ---
+        const defaultData = {
+            about: { zh: "", en: "" },
+            researchStatement: [ { zh: "", en: "" }, { zh: "", en: "" }, { zh: "", en: "" } ],
+            publications: [],
+            contactEmail: ""
+        };
+
+        function loadData() {
+            const storedData = localStorage.getItem('academicData');
+            const data = storedData ? JSON.parse(storedData) : defaultData;
+
+            document.getElementById('about-zh').value = data.about.zh;
+            document.getElementById('about-en').value = data.about.en;
+
+            const rsEditor = document.getElementById('research-statement-editor');
+            rsEditor.innerHTML = '';
+            data.researchStatement.forEach((p, index) => {
+                const editor = `
+                    <div class="border p-4 rounded-md">
+                        <h3 class="font-semibold text-gray-600 mb-2">段落 ${index + 1}</h3>
+                        <label class="form-label text-sm">中文</label>
+                        <textarea class="form-textarea h-20 research-zh">${p.zh || ''}</textarea>
+                        <label class="form-label text-sm mt-2">English</label>
+                        <textarea class="form-textarea h-20 research-en">${p.en || ''}</textarea>
+                    </div>
+                `;
+                rsEditor.innerHTML += editor;
+            });
+
+            loadPublications(data.publications);
+            document.getElementById('contact-email').value = data.contactEmail;
+        }
+        
+        function loadPublications(pubs) {
+            const pubEditor = document.getElementById('publications-editor');
+            pubEditor.innerHTML = '';
+            pubs.forEach((pub, index) => {
+                const editor = `
+                    <div class="border p-4 rounded-md relative pub-item">
+                        <h3 class="font-semibold text-gray-600 mb-2">论文 ${index + 1}</h3>
+                        <div><label class="form-label text-sm">Title</label><input type="text" class="form-input pub-title" value="${pub.title || ''}"></div>
+                        <div class="mt-2"><label class="form-label text-sm">Date (e.g., Preprint 2025)</label><input type="text" class="form-input pub-date" value="${pub.date || ''}"></div>
+                        <div class="mt-2"><label class="form-label text-sm">中文描述</label><textarea class="form-textarea h-16 pub-desc-zh">${pub.desc_zh || ''}</textarea></div>
+                        <div class="mt-2"><label class="form-label text-sm">English Description</label><textarea class="form-textarea h-16 pub-desc-en">${pub.desc_en || ''}</textarea></div>
+                        <div class="mt-2"><label class="form-label text-sm">DOI Link</label><input type="text" class="form-input pub-doi" value="${pub.doi || ''}"></div>
+                        <div class="mt-2"><label class="form-label text-sm">附件链接 (PDF, Notes, etc.)</label><input type="text" class="form-input pub-attachment" value="${pub.attachment_url || ''}"></div>
+                        <button class="absolute top-2 right-2 text-red-500 hover:text-red-700 font-bold delete-pub" data-index="${index}">删除</button>
+                    </div>
+                `;
+                pubEditor.innerHTML += editor;
+            });
+            addDeleteListeners();
+        }
+        
+        function addDeleteListeners() {
+             document.querySelectorAll('.delete-pub').forEach(button => {
+                button.addEventListener('click', function() {
+                    if (confirm('您确定要删除这篇论文吗？')) {
+                        const index = parseInt(this.dataset.index);
+                        const data = JSON.parse(localStorage.getItem('academicData') || JSON.stringify(defaultData));
+                        data.publications.splice(index, 1);
+                        localStorage.setItem('academicData', JSON.stringify(data));
+                        loadPublications(data.publications);
+                    }
+                });
+            });
+        }
+
+        document.getElementById('add-publication').addEventListener('click', function() {
+            const data = JSON.parse(localStorage.getItem('academicData') || JSON.stringify(defaultData));
+            data.publications.unshift({ title: "新论文标题", date: "Preprint (2025)", desc_zh: "", desc_en: "", doi: "https://doi.org/...", attachment_url: "" });
+            loadPublications(data.publications);
+            localStorage.setItem('academicData', JSON.stringify(data));
+        });
+
+        document.getElementById('save-button').addEventListener('click', function() {
+            const dataToSave = {
+                about: {
+                    zh: document.getElementById('about-zh').value,
+                    en: document.getElementById('about-en').value
+                },
+                researchStatement: [],
+                publications: [],
+                contactEmail: document.getElementById('contact-email').value
+            };
+
+            const researchZh = document.querySelectorAll('.research-zh');
+            const researchEn = document.querySelectorAll('.research-en');
+            for(let i = 0; i < researchZh.length; i++) {
+                dataToSave.researchStatement.push({
+                    zh: researchZh[i].value,
+                    en: researchEn[i].value
+                });
+            }
+
+            const pubItems = document.querySelectorAll('.pub-item');
+            pubItems.forEach(item => {
+                dataToSave.publications.push({
+                    title: item.querySelector('.pub-title').value,
+                    date: item.querySelector('.pub-date').value,
+                    desc_zh: item.querySelector('.pub-desc-zh').value,
+                    desc_en: item.querySelector('.pub-desc-en').value,
+                    doi: item.querySelector('.pub-doi').value,
+                    attachment_url: item.querySelector('.pub-attachment').value
+                });
+            });
+             dataToSave.publications.reverse(); // 保持顺序
+
+            localStorage.setItem('academicData', JSON.stringify(dataToSave));
+            alert('内容已成功保存到您的浏览器！');
+        });
+
+    </script>
+</body>
+</html>
+
