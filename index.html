@@ -23,13 +23,13 @@
             @apply bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300;
         }
         .english-text {
-            @apply text-base text-gray-600 mt-2;
+            @apply text-base text-gray-500 mt-2;
         }
         .link-button {
-            @apply inline-block font-semibold text-blue-600 hover:text-blue-800 transition-colors mr-4;
+            @apply inline-block font-semibold text-blue-600 hover:text-blue-800 hover:underline transition-colors mr-4;
         }
         .attachment-button {
-            @apply inline-block font-semibold text-green-600 hover:text-green-800 transition-colors;
+            @apply inline-block font-semibold text-green-600 hover:text-green-800 hover:underline transition-colors;
         }
     </style>
 </head>
@@ -49,8 +49,8 @@
             <!-- 关于我 -->
             <section id="about" class="mb-16">
                 <h2 class="section-title">关于我</h2>
-                <p id="about-zh" class="text-lg"></p>
-                <p id="about-en" class="english-text"></p>
+                <div id="about-zh" class="text-lg prose max-w-none"></div>
+                <div id="about-en" class="english-text prose max-w-none"></div>
             </section>
 
             <!-- 研究理念 -->
@@ -102,21 +102,21 @@
             // 默认内容，防止在控制台首次保存前页面为空
             const defaultData = {
                 about: {
-                    zh: "我是一名独立研究者，致力于为智能（无论是人类的还是人工智能）寻找第一性原理。我的工作聚焦于构建一个从形式逻辑极限出发，贯穿信息论与拓扑学，最终能够统一解释AI系统结构与动力学的理论体系。",
-                    en: "I am an independent researcher dedicated to seeking the first principles of intelligence, both human and artificial. My work focuses on constructing a theoretical system that originates from the formal logical limits, extends through information theory and topology, and ultimately provides a unified explanation for the structure and dynamics of AI systems."
+                    zh: "<p>我是一名独立研究者，致力于为智能（无论是人类的还是人工智能）寻找第一性原理。我的工作聚焦于构建一个从形式逻辑极限出发，贯穿信息论与拓扑学，最终能够统一解释AI系统结构与动力学的理论体系。</p>",
+                    en: "<p>I am an independent researcher dedicated to seeking the first principles of intelligence, both human and artificial. My work focuses on constructing a theoretical system that originates from the formal logical limits, extends through information theory and topology, and ultimately provides a unified explanation for the structure and dynamics of AI systems.</p>"
                 },
                 researchStatement: [
                     {
-                        zh: "我的研究始于一个根本问题：一个系统如何才能产生并维持意义？通过对符号接地问题的形式化分析，我证明了任何智能系统都必须遵循一系列哥德尔式的逻辑极限。这些极限必然要求系统具备一个开放、动态的结构，并演化出一个用于推理的“逻辑系统”($S_{logic}$)与一个用于学习和修正的“元系统”($S_{meta}$)的二元架构。",
-                        en: "My research begins with a fundamental question: How can a system generate and sustain meaning? Through a formal analysis of the symbol grounding problem, I have proven that any intelligent system must adhere to a series of Gödelian logical limits. These limits necessitate that the system must have an open, dynamic structure and evolve a dual architecture comprising a 'Logical System' ($S_{logic}$) for inference and a 'Meta-System' ($S_{meta}$) for learning and revision."
+                        zh: "<p>我的研究始于一个根本问题：一个系统如何才能产生并维持意义？通过对符号接地问题的形式化分析，我证明了任何智能系统都必须遵循一系列哥德尔式的逻辑极限。这些极限必然要求系统具备一个开放、动态的结构，并演化出一个用于推理的“逻辑系统”($S_{logic}$)与一个用于学习和修正的“元系统”($S_{meta}$)的二元架构。</p>",
+                        en: "<p>My research begins with a fundamental question: How can a system generate and sustain meaning? Through a formal analysis of the symbol grounding problem, I have proven that any intelligent system must adhere to a series of Gödelian logical limits. These limits necessitate that the system must have an open, dynamic structure and evolve a dual architecture comprising a 'Logical System' ($S_{logic}$) for inference and a 'Meta-System' ($S_{meta}$) for learning and revision.</p>"
                     },
                     {
-                        zh: "在此基础上，我构建了一个“双熵模型”来量化系统的认知状态。通过将知识结构建模为一个拓扑网络，我定义了两个核心度量：“拓扑语义熵”($H_{TSE}$)，衡量意义的稳定性与泛化能力；以及“语义信息熵”($H_{SIE}$)，衡量定义的复杂度。",
-                        en: "Building upon this foundation, I constructed a 'dual-entropy model' to quantify the system's cognitive state. By modeling the knowledge structure as a topological network, I have defined two core metrics: 'Topological Semantic Entropy' ($H_{TSE}$), which measures the stability of meaning and generalization ability, and 'Semantic Information Entropy' ($H_{SIE}$), which measures definitional complexity."
+                        zh: "<p>在此基础上，我构建了一个“双熵模型”来量化系统的认知状态。通过将知识结构建模为一个拓扑网络，我定义了两个核心度量：“拓扑语义熵”($H_{TSE}$)，衡量意义的稳定性与泛化能力；以及“语义信息熵”($H_{SIE}$)，衡量定义的复杂度。</p>",
+                        en: "<p>Building upon this foundation, I constructed a 'dual-entropy model' to quantify the system's cognitive state. By modeling the knowledge structure as a topological network, I have defined two core metrics: 'Topological Semantic Entropy' ($H_{TSE}$), which measures the stability of meaning and generalization ability, and 'Semantic Information Entropy' ($H_{SIE}$), which measures definitional complexity.</p>"
                     },
                     {
-                        zh: "我的理论核心是“认知经济性原理”：所有学习过程的根本驱动力，都是在这个由双熵定义的“语义状态空间”中，寻求一个稳定性与简洁性之间的最优平衡点。这一原理为理解和设计AI提供了一个统一的、源自第一性原理的视角。",
-                        en: "The core of my theory is the 'Principle of Cognitive Economy': the fundamental driving force of all learning processes is the search for an optimal equilibrium between stability and simplicity within this dual-entropy-defined 'Semantic State Space.' This principle offers a unified, first-principles perspective for understanding and designing AI."
+                        zh: "<p>我的理论核心是“认知经济性原理”：所有学习过程的根本驱动力，都是在这个由双熵定义的“语义状态空间”中，寻求一个稳定性与简洁性之间的最优平衡点。这一原理为理解和设计AI提供了一个统一的、源自第一性原理的视角。</p>",
+                        en: "<p>The core of my theory is the 'Principle of Cognitive Economy': the fundamental driving force of all learning processes is the search for an optimal equilibrium between stability and simplicity within this dual-entropy-defined 'Semantic State Space.' This principle offers a unified, first-principles perspective for understanding and designing AI.</p>"
                     }
                 ],
                 publications: [],
@@ -126,26 +126,26 @@
             const storedData = localStorage.getItem('academicData');
             const data = storedData ? JSON.parse(storedData) : defaultData;
 
-            // 填充“关于我”
-            document.getElementById('about-zh').textContent = data.about.zh;
-            document.getElementById('about-en').textContent = data.about.en;
+            // 填充“关于我” - 使用 innerHTML 来渲染富文本格式
+            document.getElementById('about-zh').innerHTML = data.about.zh;
+            document.getElementById('about-en').innerHTML = data.about.en;
 
-            // 填充“研究理念”
+            // 填充“研究理念” - 使用 innerHTML
             const researchContent = document.getElementById('research-statement-content');
             researchContent.innerHTML = ''; // 清空
             data.researchStatement.forEach(p => {
                 const div = document.createElement('div');
-                const p_zh = document.createElement('p');
-                p_zh.textContent = p.zh;
-                const p_en = document.createElement('p');
+                const p_zh = document.createElement('div');
+                p_zh.innerHTML = p.zh;
+                const p_en = document.createElement('div');
                 p_en.className = 'english-text';
-                p_en.textContent = p.en;
+                p_en.innerHTML = p.en;
                 div.appendChild(p_zh);
                 div.appendChild(p_en);
                 researchContent.appendChild(div);
             });
 
-            // 填充“出版物”
+            // 填充“出版物” - 使用 innerHTML
             const pubList = document.getElementById('publications-list');
             pubList.innerHTML = ''; // 清空
             data.publications.forEach(pub => {
@@ -162,8 +162,8 @@
                     <div class="publication-card">
                         <h3 class="text-2xl font-semibold text-gray-800 mb-2">${pub.title}</h3>
                         <p class="text-sm text-gray-500 mb-3">${pub.date}</p>
-                        <p class="mb-4">${pub.desc_zh}</p>
-                        <p class="english-text mb-4">${pub.desc_en}</p>
+                        <div class="mb-4 prose max-w-none">${pub.desc_zh}</div>
+                        <div class="english-text mb-4 prose max-w-none">${pub.desc_en}</div>
                         <div class="mt-4">
                             <a href="${pub.doi}" target="_blank" class="link-button">
                                 阅读手稿 (DOI: ${pub.doi.includes('zenodo') ? pub.doi.split('/').pop() : 'Forthcoming'}) &rarr;
@@ -179,15 +179,17 @@
             document.getElementById('contact-link').href = `mailto:${data.contactEmail}`;
             
             // 手动触发KaTeX渲染
-            renderMathInElement(document.body, {
-                delimiters: [
-                    {left: '$$', right: '$$', display: true},
-                    {left: '$', right: '$', display: false},
-                    {left: '\\(', right: '\\)', display: false},
-                    {left: '\\[', right: '\\]', display: true}
-                ],
-                throwOnError : false
-            });
+            if (window.renderMathInElement) {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false},
+                        {left: '\\(', right: '\\)', display: false},
+                        {left: '\\[', right: '\\]', display: true}
+                    ],
+                    throwOnError : false
+                });
+            }
         });
     </script>
 </body>

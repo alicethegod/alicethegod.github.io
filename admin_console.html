@@ -3,15 +3,202 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>刘章驰 (Zhangchi Liu) - 独立研究者</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0KOVEMeaOvtUHTuWUTILumwWvEntatLvxinputerflnmPm9pMBHtc" crossorigin="anonymous">
+
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans SC', sans-serif;
+            transition: background-image 0.5s ease-in-out;
+        }
+        .section-title {
+            @apply text-3xl font-bold text-gray-800 mb-6 pb-2 border-b-2 border-blue-600;
+        }
+        .publication-card {
+            @apply bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300;
+        }
+        .english-text {
+            @apply text-base text-gray-500 mt-2;
+        }
+        .link-button {
+            @apply inline-block font-semibold text-blue-600 hover:text-blue-800 hover:underline transition-colors mr-4;
+        }
+        .attachment-button {
+            @apply inline-block font-semibold text-green-600 hover:text-green-800 hover:underline transition-colors;
+        }
+        .content-section {
+             @apply bg-gray-50; /* 默认背景 */
+        }
+        .frosted-card {
+            background-color: rgba(255, 255, 255, 0.75);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            @apply rounded-xl shadow-lg;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-700 leading-relaxed">
+
+    <div class="container mx-auto max-w-4xl p-4 sm:p-8">
+
+        <header class="text-center py-12 content-section p-6">
+            <h1 class="text-4xl sm:text-5xl font-bold text-gray-900">刘章驰 (Zhangchi Liu)</h1>
+            <p class="text-xl text-blue-700 mt-2">独立研究者 | Independent Researcher</p>
+            <p class="text-md text-gray-500 mt-1">Wuhan, China</p>
+        </header>
+
+        <main class="space-y-16">
+            <section id="about" class="content-section p-6">
+                <h2 class="section-title">关于我</h2>
+                <div id="about-zh" class="text-lg prose max-w-none"></div>
+                <div id="about-en" class="english-text prose max-w-none"></div>
+            </section>
+
+            <section id="research-statement" class="content-section p-6">
+                <h2 class="section-title">研究理念</h2>
+                <div id="research-statement-content" class="space-y-4 text-lg">
+                    </div>
+            </section>
+
+            <section id="publications" class="content-section p-6">
+                <h2 class="section-title">出版物与手稿</h2>
+                <div id="publications-list" class="space-y-8">
+                    </div>
+            </section>
+
+            <section id="contact" class="text-center py-12 content-section p-6">
+                <h2 class="section-title inline-block">联系我</h2>
+                <p class="text-lg mt-4">
+                    如果您对我的研究感兴趣，或希望就相关问题进行探讨，欢迎通过电子邮件联系我。
+                </p>
+                <p class="english-text text-lg">
+                    If you are interested in my research or wish to discuss related topics, please feel free to contact me via email.
+                </p>
+                <a id="contact-link" href="#" class="mt-6 inline-block bg-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-700 transition-colors text-lg">
+                    发送邮件 | Send Email
+                </a>
+            </section>
+
+        </main>
+
+        <footer class="text-center text-sm text-gray-500 pt-8 pb-4 border-t mt-8 content-section p-4">
+             <p>&copy; 2025 Zhangchi Liu. All rights reserved.</p>
+             <a href="admin_console.html" class="text-gray-400 hover:text-gray-500 text-xs">Admin Console</a>
+        </footer>
+
+    </div>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlVwcjNsIQKfedpirAXA6W9p2Vr2mcjpBImaCL2gxsxIUXsPlGjR3wGUB2" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 默认内容
+            const defaultData = {
+                about: { zh: "<p>...</p>", en: "<p>...</p>" },
+                researchStatement: [ { zh: "<p>...</p>", en: "<p>...</p>" } ],
+                publications: [],
+                contactEmail: "your.email@example.com",
+                style: {
+                    backgroundImageUrl: "",
+                    enableFrostedEffect: false
+                }
+            };
+
+            const storedData = localStorage.getItem('academicData');
+            const data = storedData ? JSON.parse(storedData) : defaultData;
+
+            // 应用外观设置
+            if (data.style && data.style.backgroundImageUrl) {
+                document.body.style.backgroundImage = `url('${data.style.backgroundImageUrl}')`;
+                document.body.style.backgroundSize = 'cover';
+                document.body.style.backgroundAttachment = 'fixed';
+                document.body.style.backgroundPosition = 'center';
+                
+                if (data.style.enableFrostedEffect) {
+                    document.querySelectorAll('.content-section').forEach(el => {
+                        el.classList.add('frosted-card');
+                        el.classList.remove('bg-gray-50');
+                    });
+                }
+            }
+
+
+            // 填充内容 - 使用 innerHTML 来渲染富文本格式
+            document.getElementById('about-zh').innerHTML = data.about.zh;
+            document.getElementById('about-en').innerHTML = data.about.en;
+
+            const researchContent = document.getElementById('research-statement-content');
+            researchContent.innerHTML = ''; 
+            data.researchStatement.forEach(p => {
+                const div = document.createElement('div');
+                div.innerHTML = `<div class="prose max-w-none">${p.zh}</div><div class="english-text prose max-w-none">${p.en}</div>`;
+                researchContent.appendChild(div);
+            });
+
+            const pubList = document.getElementById('publications-list');
+            pubList.innerHTML = '';
+            data.publications.forEach(pub => {
+                let attachmentLink = '';
+                if (pub.attachment_url && pub.attachment_url.trim() !== '') {
+                    attachmentLink = `<a href="${pub.attachment_url}" target="_blank" class="attachment-button">[下载附件 | Download Attachment]</a>`;
+                }
+
+                const card = `
+                    <div class="publication-card">
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-2">${pub.title}</h3>
+                        <p class="text-sm text-gray-500 mb-3">${pub.date}</p>
+                        <div class="mb-4 prose max-w-none">${pub.desc_zh}</div>
+                        <div class="english-text mb-4 prose max-w-none">${pub.desc_en}</div>
+                        <div class="mt-4">
+                            <a href="${pub.doi}" target="_blank" class="link-button">
+                                阅读手稿 (DOI: ${pub.doi && pub.doi.includes('zenodo') ? pub.doi.split('/').pop() : 'Forthcoming'}) &rarr;
+                            </a>
+                            ${attachmentLink}
+                        </div>
+                    </div>
+                `;
+                pubList.innerHTML += card;
+            });
+
+            document.getElementById('contact-link').href = `mailto:${data.contactEmail}`;
+            
+            // 手动触发KaTeX渲染
+            if (window.renderMathInElement) {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false}
+                    ],
+                    throwOnError : false
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+```eof
+```html:学术主页控制台:admin_console.html
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>学术主页控制台</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tiny.cloud/1/rcmslaycd9mdrp52ilw7ctbhrgfpyyfykri9cjeiikhb102m/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
     <style>
         body { font-family: 'Inter', 'Noto Sans SC', sans-serif; }
         .form-section { @apply bg-white p-6 rounded-lg shadow-md mb-8; }
         .form-label { @apply block text-lg font-semibold text-gray-700 mb-2; }
         .form-input { @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500; }
-        .form-textarea { @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-24; }
     </style>
 </head>
 <body class="bg-gray-100">
@@ -34,37 +221,44 @@
         </header>
 
         <main>
-            <!-- 关于我 -->
+            <div class="form-section">
+                <h2 class="text-2xl font-bold text-gray-700 mb-4 border-b pb-2">外观设置</h2>
+                <div>
+                    <label for="background-url" class="form-label">背景壁纸URL</label>
+                    <input type="text" id="background-url" class="form-input" placeholder="请粘贴在线图片的URL地址...">
+                    <p class="text-sm text-gray-500 mt-1">建议使用高分辨率图片。留空则恢复默认背景。</p>
+                </div>
+                <div class="mt-4 flex items-center">
+                    <input type="checkbox" id="enable-frosted-effect" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                    <label for="enable-frosted-effect" class="ml-3 text-lg text-gray-700">启用内容区域磨砂玻璃效果</label>
+                </div>
+            </div>
+
             <div class="form-section">
                 <h2 class="text-2xl font-bold text-gray-700 mb-4 border-b pb-2">关于我</h2>
                 <div>
                     <label for="about-zh" class="form-label">中文陈述</label>
-                    <textarea id="about-zh" class="form-textarea"></textarea>
+                    <textarea id="about-zh"></textarea>
                 </div>
                 <div class="mt-4">
                     <label for="about-en" class="form-label">English Statement</label>
-                    <textarea id="about-en" class="form-textarea"></textarea>
+                    <textarea id="about-en"></textarea>
                 </div>
             </div>
 
-            <!-- 研究理念 -->
             <div class="form-section">
                 <h2 class="text-2xl font-bold text-gray-700 mb-4 border-b pb-2">研究理念</h2>
                 <div id="research-statement-editor" class="space-y-6">
-                    <!-- JS will populate this -->
-                </div>
+                    </div>
             </div>
 
-            <!-- 出版物 -->
             <div class="form-section">
                 <h2 class="text-2xl font-bold text-gray-700 mb-4 border-b pb-2">出版物与手稿</h2>
                 <div id="publications-editor" class="space-y-6">
-                    <!-- JS will populate this -->
-                </div>
+                    </div>
                 <button id="add-publication" class="mt-6 bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors">添加一篇论文</button>
             </div>
             
-            <!-- 联系方式 -->
             <div class="form-section">
                  <h2 class="text-2xl font-bold text-gray-700 mb-4 border-b pb-2">联系方式</h2>
                  <div>
@@ -106,17 +300,37 @@
             }
         }
 
+        // --- 富文本编辑器初始化 ---
+        function initializeEditors() {
+            tinymce.remove(); // 移除旧实例以防重复初始化
+            tinymce.init({
+                selector: 'textarea',
+                plugins: 'autolink lists link charmap code help wordcount',
+                toolbar: 'undo redo | blocks | bold italic | bullist numlist | link | removeformat | code | help',
+                height: 200,
+                menubar: false,
+                content_style: 'body { font-family:Inter,Noto Sans SC,sans-serif; font-size:16px }'
+            });
+        }
+
         // --- 数据加载与保存 ---
         const defaultData = {
             about: { zh: "", en: "" },
             researchStatement: [ { zh: "", en: "" }, { zh: "", en: "" }, { zh: "", en: "" } ],
             publications: [],
-            contactEmail: ""
+            contactEmail: "",
+            style: { backgroundImageUrl: "", enableFrostedEffect: true }
         };
 
         function loadData() {
             const storedData = localStorage.getItem('academicData');
             const data = storedData ? JSON.parse(storedData) : defaultData;
+
+            // 加载外观设置
+            if (data.style) {
+                document.getElementById('background-url').value = data.style.backgroundImageUrl || '';
+                document.getElementById('enable-frosted-effect').checked = data.style.enableFrostedEffect;
+            }
 
             document.getElementById('about-zh').value = data.about.zh;
             document.getElementById('about-en').value = data.about.en;
@@ -124,39 +338,35 @@
             const rsEditor = document.getElementById('research-statement-editor');
             rsEditor.innerHTML = '';
             data.researchStatement.forEach((p, index) => {
-                const editor = `
+                rsEditor.innerHTML += `
                     <div class="border p-4 rounded-md">
                         <h3 class="font-semibold text-gray-600 mb-2">段落 ${index + 1}</h3>
-                        <label class="form-label text-sm">中文</label>
-                        <textarea class="form-textarea h-20 research-zh">${p.zh || ''}</textarea>
-                        <label class="form-label text-sm mt-2">English</label>
-                        <textarea class="form-textarea h-20 research-en">${p.en || ''}</textarea>
-                    </div>
-                `;
-                rsEditor.innerHTML += editor;
+                        <textarea id="research-zh-${index}">${p.zh || ''}</textarea>
+                        <textarea id="research-en-${index}" class="mt-2">${p.en || ''}</textarea>
+                    </div>`;
             });
 
             loadPublications(data.publications);
             document.getElementById('contact-email').value = data.contactEmail;
+            
+            setTimeout(initializeEditors, 100); // 稍作延迟以确保DOM更新
         }
         
         function loadPublications(pubs) {
             const pubEditor = document.getElementById('publications-editor');
             pubEditor.innerHTML = '';
             pubs.forEach((pub, index) => {
-                const editor = `
-                    <div class="border p-4 rounded-md relative pub-item">
+                pubEditor.innerHTML += `
+                    <div class="border p-4 rounded-md relative pub-item" data-index="${index}">
                         <h3 class="font-semibold text-gray-600 mb-2">论文 ${index + 1}</h3>
                         <div><label class="form-label text-sm">Title</label><input type="text" class="form-input pub-title" value="${pub.title || ''}"></div>
                         <div class="mt-2"><label class="form-label text-sm">Date (e.g., Preprint 2025)</label><input type="text" class="form-input pub-date" value="${pub.date || ''}"></div>
-                        <div class="mt-2"><label class="form-label text-sm">中文描述</label><textarea class="form-textarea h-16 pub-desc-zh">${pub.desc_zh || ''}</textarea></div>
-                        <div class="mt-2"><label class="form-label text-sm">English Description</label><textarea class="form-textarea h-16 pub-desc-en">${pub.desc_en || ''}</textarea></div>
+                        <div class="mt-2"><label class="form-label text-sm">中文描述</label><textarea id="pub-desc-zh-${index}">${pub.desc_zh || ''}</textarea></div>
+                        <div class="mt-2"><label class="form-label text-sm">English Description</label><textarea id="pub-desc-en-${index}">${pub.desc_en || ''}</textarea></div>
                         <div class="mt-2"><label class="form-label text-sm">DOI Link</label><input type="text" class="form-input pub-doi" value="${pub.doi || ''}"></div>
                         <div class="mt-2"><label class="form-label text-sm">附件链接 (PDF, Notes, etc.)</label><input type="text" class="form-input pub-attachment" value="${pub.attachment_url || ''}"></div>
-                        <button class="absolute top-2 right-2 text-red-500 hover:text-red-700 font-bold delete-pub" data-index="${index}">删除</button>
-                    </div>
-                `;
-                pubEditor.innerHTML += editor;
+                        <button class="absolute top-2 right-2 text-red-500 hover:text-red-700 font-bold delete-pub">删除</button>
+                    </div>`;
             });
             addDeleteListeners();
         }
@@ -165,11 +375,11 @@
              document.querySelectorAll('.delete-pub').forEach(button => {
                 button.addEventListener('click', function() {
                     if (confirm('您确定要删除这篇论文吗？')) {
-                        const index = parseInt(this.dataset.index);
+                        const index = parseInt(this.closest('.pub-item').dataset.index);
                         const data = JSON.parse(localStorage.getItem('academicData') || JSON.stringify(defaultData));
                         data.publications.splice(index, 1);
                         localStorage.setItem('academicData', JSON.stringify(data));
-                        loadPublications(data.publications);
+                        loadData(); 
                     }
                 });
             });
@@ -178,42 +388,47 @@
         document.getElementById('add-publication').addEventListener('click', function() {
             const data = JSON.parse(localStorage.getItem('academicData') || JSON.stringify(defaultData));
             data.publications.unshift({ title: "新论文标题", date: "Preprint (2025)", desc_zh: "", desc_en: "", doi: "https://doi.org/...", attachment_url: "" });
-            loadPublications(data.publications);
             localStorage.setItem('academicData', JSON.stringify(data));
+            loadData();
         });
 
         document.getElementById('save-button').addEventListener('click', function() {
+            tinymce.triggerSave(); 
+
             const dataToSave = {
                 about: {
-                    zh: document.getElementById('about-zh').value,
-                    en: document.getElementById('about-en').value
+                    zh: tinymce.get('about-zh').getContent(),
+                    en: tinymce.get('about-en').getContent()
                 },
                 researchStatement: [],
                 publications: [],
-                contactEmail: document.getElementById('contact-email').value
+                contactEmail: document.getElementById('contact-email').value,
+                style: {
+                    backgroundImageUrl: document.getElementById('background-url').value,
+                    enableFrostedEffect: document.getElementById('enable-frosted-effect').checked
+                }
             };
 
-            const researchZh = document.querySelectorAll('.research-zh');
-            const researchEn = document.querySelectorAll('.research-en');
-            for(let i = 0; i < researchZh.length; i++) {
+            const rsCount = document.querySelectorAll('#research-statement-editor > div').length;
+            for(let i = 0; i < rsCount; i++) {
                 dataToSave.researchStatement.push({
-                    zh: researchZh[i].value,
-                    en: researchEn[i].value
+                    zh: tinymce.get(`research-zh-${i}`).getContent(),
+                    en: tinymce.get(`research-en-${i}`).getContent()
                 });
             }
 
             const pubItems = document.querySelectorAll('.pub-item');
-            pubItems.forEach(item => {
+            pubItems.forEach((item, index) => {
                 dataToSave.publications.push({
                     title: item.querySelector('.pub-title').value,
                     date: item.querySelector('.pub-date').value,
-                    desc_zh: item.querySelector('.pub-desc-zh').value,
-                    desc_en: item.querySelector('.pub-desc-en').value,
+                    desc_zh: tinymce.get(`pub-desc-zh-${index}`).getContent(),
+                    desc_en: tinymce.get(`pub-desc-en-${index}`).getContent(),
                     doi: item.querySelector('.pub-doi').value,
                     attachment_url: item.querySelector('.pub-attachment').value
                 });
             });
-             dataToSave.publications.reverse(); // 保持顺序
+            dataToSave.publications.reverse();
 
             localStorage.setItem('academicData', JSON.stringify(dataToSave));
             alert('内容已成功保存到您的浏览器！');
@@ -222,4 +437,3 @@
     </script>
 </body>
 </html>
-
