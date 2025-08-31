@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
     <!-- TinyMCE Rich Text Editor -->
     <!-- 请将下面的 'no-api-key' 替换为您自己的免费API密钥 -->
-    <script src="https://cdn.tiny.cloud/1/rcmslaycd9mdrp52ilw7ctbhrgfpyyfykri9cjeiikhb102m/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/rcmslaycd9mdrp52ilw7ctbhrgfpyyfykri9cjeiikhb102m/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
     <style>
         body { font-family: 'Inter', 'Noto Sans SC', sans-serif; }
         .form-section { @apply bg-white p-6 rounded-lg shadow-md mb-8; }
@@ -99,7 +99,7 @@
     
     <script>
         // --- 安全设置 ---
-        const PASSWORD_HASH = '1d13ccb9ba59d512ecb83a2c589e126221b737b94bfe74f4d71aa92a90d6fa20'; // 默认密码的哈希值
+        const PASSWORD_HASH = '1d13ccb9ba59d512ecb83a2c589e126221b737b94bfe74f4d71aa92a90d6fa20'; // 默认密码'theory'的哈希值, 请使用password_hasher.html生成您自己的哈希并替换此处
 
         async function sha256(message) {
             const msgBuffer = new TextEncoder().encode(message);
@@ -135,7 +135,6 @@
         }
         
         // --- 后续代码 (富文本编辑器, 数据加载/保存等) 保持不变 ---
-        // ... (The rest of the script is identical to the previous version)
 
         // --- 富文本编辑器初始化 ---
         function initializeEditors() {
