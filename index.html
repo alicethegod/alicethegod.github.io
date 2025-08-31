@@ -25,17 +25,21 @@
         .english-text {
             @apply text-base text-gray-500 mt-2;
         }
-        /* Updated link styles for consistency */
-        .link-button {
-            @apply inline-block font-semibold text-blue-600 hover:text-blue-800 hover:underline transition-colors mr-4;
+        
+        /* --- UNIFIED & FORCED LINK STYLES --- */
+        /* This targets the main buttons AND any link inside the rich text content */
+        .link-button, .attachment-button, .prose a {
+            color: #2563EB; /* Tailwind blue-600 */
+            text-decoration: none;
+            transition: color 0.2s ease-in-out;
         }
-        .attachment-button {
-            /* Changed from green to a prominent blue */
-            @apply inline-block font-semibold text-blue-600 hover:text-blue-800 hover:underline transition-colors;
+        .link-button:hover, .attachment-button:hover, .prose a:hover {
+            color: #1D4ED8; /* Tailwind blue-800 */
+            text-decoration: underline;
         }
-        /* Added: Style for any links within the rich-text content */
-        .prose a {
-            @apply text-blue-600 hover:underline;
+        /* Keep the font-weight specific to the buttons */
+        .link-button, .attachment-button {
+            font-weight: 600; /* semibold */
         }
     </style>
 </head>
@@ -94,7 +98,7 @@
         <!-- 页脚 -->
         <footer class="text-center text-sm text-gray-500 pt-8 pb-4 border-t mt-8">
              <p>&copy; 2025 Zhangchi Liu. All rights reserved.</p>
-             <a href="admin_console.html" class="text-gray-300 hover:text-gray-400 text-xs">Admin</a>
+             <a href="admin_console.html" class="text-gray-400 hover:text-gray-500 text-xs">Admin Console</a>
         </footer>
 
     </div>
@@ -143,8 +147,9 @@
                 const div = document.createElement('div');
                 const p_zh = document.createElement('div');
                 p_zh.innerHTML = p.zh;
+                p_zh.classList.add('prose', 'max-w-none');
                 const p_en = document.createElement('div');
-                p_en.className = 'english-text';
+                p_en.className = 'english-text prose max-w-none';
                 p_en.innerHTML = p.en;
                 div.appendChild(p_zh);
                 div.appendChild(p_en);
@@ -172,7 +177,7 @@
                         <div class="english-text mb-4 prose max-w-none">${pub.desc_en}</div>
                         <div class="mt-4">
                             <a href="${pub.doi}" target="_blank" class="link-button">
-                                阅读手稿 (DOI: ${pub.doi.includes('zenodo') ? pub.doi.split('/').pop() : 'Forthcoming'}) &rarr;
+                                阅读手稿 (DOI: ${pub.doi && pub.doi.includes('zenodo') ? pub.doi.split('/').pop() : 'Forthcoming'}) &rarr;
                             </a>
                             ${attachmentLink}
                         </div>
